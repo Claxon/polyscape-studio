@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Polyscape Studio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Main editing dialog (Camera Raw style) -->
+  <dialog id="studio">
+    <div id="dlgRoot">
+      <div id="left">
+        <div id="bigBar" class="viewBar">
+          <button id="bigZoomOut" title="Zoom out">−</button>
+          <button id="bigFit" title="Fit to view">Fit</button>
+          <button id="bigActual" title="Actual pixels">1:1</button>
+          <button id="bigZoomIn" title="Zoom in">+</button>
+          <span id="bigZoom" class="zoomLbl"></span>
+          <span class="sep"></span>
+          <button id="btnClean" class="toggle" title="Show the final merged result without guides">Preview</button>
+          <button id="btnBefore" class="toggle" title="Show the original image">Before</button>
+          <label class="chk"><input type="checkbox" id="guidesChk" checked> Guides</label>
+        </div>
+        <div id="bigWrap" class="viewWrap">
+          <img id="bigImg" alt="" draggable="false">
+          <div id="bigEmpty" class="viewEmpty">Open a document in Photoshop, then press Sample.</div>
+        </div>
+        <div id="leftFoot">
+          <div id="status"></div>
+          <div class="hint">Drag a shape to move · Shift+drag to scale · white dot or Alt+drag to rotate · drag empty area or right-drag to pan · wheel over the image to zoom (you can zoom out past Fit)</div>
+        </div>
+      </div>
+
+      <div id="right">
+        <div id="rightTop">
+          <div class="bar" id="actionBar">
+            <select id="outputSel" title="What Apply and OK produce">
+              <option value="full">Result: full image</option>
+              <option value="effect">Result: shapes only</option>
+            </select>
+            <button id="btnCancel" title="Close without changing the document">Cancel</button>
+            <button id="btnApply" title="Add the result as a new layer and keep editing">Apply</button>
+            <button id="btnOK" class="primary" title="Add the result as a new layer and close">OK</button>
+          </div>
+          <div class="bar">
+            <select id="presetSel" title="Load a preset"></select>
+            <button id="btnRandom" title="Generate a random polyscape">Random</button>
+            <button id="btnUndo" title="Undo">Undo</button>
+            <button id="btnRedo" title="Redo">Redo</button>
+          </div>
+          <div class="bar">
+            <button id="btnRefresh" title="Re-sample the document">Sample</button>
+            <select id="sourceSel" title="What to sample">
+              <option value="visible">Visible (merged)</option>
+              <option value="layer">Active layer</option>
+            </select>
+            <select id="qualitySel" title="Preview resolution">
+              <option value="600">Fast</option>
+              <option value="1000">Normal</option>
+              <option value="1600">Sharp</option>
+              <option value="2400">Max</option>
+            </select>
+          </div>
+          <div class="bar" id="browserBar" style="display:none">
+            <input type="file" id="fileInput" accept="image/*">
+          </div>
+        </div>
+
+        <div id="scroll">
+          <div class="section">
+            <div class="sectionHead static">Shapes</div>
+            <div class="bar tight">
+              <select id="newTypeSel" title="Shape to add"></select>
+              <button id="btnAdd" title="Add shape at top level">+ Shape</button>
+              <button id="btnAddChild" title="Add a child shape inside the selected shape">+ Child</button>
+            </div>
+            <div id="layerList"></div>
+            <div class="bar tight">
+              <button id="btnDup" title="Duplicate">Dup</button>
+              <button id="btnUp" title="Move up (drawn later, on top)">Up</button>
+              <button id="btnDown" title="Move down">Down</button>
+              <button id="btnOutdent" title="Move out of parent">Unnest</button>
+              <button id="btnIndent" title="Make child of the shape above">Nest</button>
+              <button id="btnDel" title="Delete">Delete</button>
+            </div>
+          </div>
+
+          <div id="inspector"></div>
+
+          <div class="section">
+            <div class="sectionHead static">My presets</div>
+            <div class="bar tight">
+              <input type="text" id="presetName" placeholder="Preset name">
+              <button id="btnSavePreset">Save</button>
+              <button id="btnDelPreset" title="Delete selected ★ preset">Delete</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </dialog>
+
+  <script src="js/polyscape-core.js"></script>
+  <script src="js/presets.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+# Builds the plugin and installer when a version tag (v1.2.3) is pushed, and publishes them
+# as a GitHub release with the matching CHANGELOG.md section as the notes.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check the tag matches manifest.json
+        id: version
+        shell: pwsh
+        run: |
+          $version = (Get-Content polyscape-studio/manifest.json -Raw | ConvertFrom-Json).version
+          $tag = '${{ github.ref_name }}'
+          if ($tag -ne "v$version") { throw "Tag $tag doesn't match manifest.json version $version" }
+          "version=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Syntax-check the scripts
+        shell: pwsh
+        run: Get-ChildItem polyscape-studio/js/*.js | ForEach-Object { node --check $_.FullName; if ($LASTEXITCODE) { exit 1 } }
+
+      - name: Build
+        shell: pwsh
+        run: ./tools/build.ps1
+
+      - name: Write release notes
+        shell: pwsh
+        run: |
+          $version = '${{ steps.version.outputs.version }}'
+          $lines = Get-Content CHANGELOG.md
+          $start = [array]::IndexOf($lines, "## $version")
+          if ($start -lt 0) { throw "CHANGELOG.md has no '## $version' section" }
+          $section = @()
+          for ($i = $start + 1; $i -lt $lines.Count -and $lines[$i] -notmatch '^## '; $i++) { $section += $lines[$i] }
+          $notes = @(
+            '## Install'
+            "1. Download **PolyscapeStudio-$version-Installer.zip** and unzip it."
+            '2. Double-click **Install Polyscape Studio.cmd**.'
+            '3. Restart Photoshop, then open **Plugins › Polyscape Studio › Open Polyscape Studio…**'
+            ''
+            '`PolyscapeStudio.ccx` is the raw plugin package if you prefer Adobe''s own installer. See the [user guide](https://github.com/${{ github.repository }}/blob/main/docs/user-guide.md) for everything else.'
+            ''
+            "## What's in $version"
+          ) + $section
+          $notes -join "`n" | Set-Content -Encoding utf8 release-notes.md
+
+      - name: Publish the release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $version = '${{ steps.version.outputs.version }}'
+          $tag = '${{ github.ref_name }}'
+          $files = "dist/PolyscapeStudio-$version-Installer.zip", 'dist/PolyscapeStudio.ccx'
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -eq 0) {
+            gh release upload $tag @files --clobber
+          } else {
+            gh release create $tag @files --title "Polyscape Studio $version" --notes-file release-notes.md --verify-tag
+          }
+          if ($LASTEXITCODE) { exit 1 }

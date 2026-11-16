@@ -1,0 +1,119 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--uxp-host-background-color, #2b2b2b);
+  color: var(--uxp-host-text-color, #dcdcdc);
+  font-size: var(--uxp-host-font-size, 11px);
+  font-family: sans-serif;
+}
+button, select, input { font-size: 11px; }
+
+/* ---------- dialog ---------- */
+dialog#studio {
+  padding: 0;
+  border: none;
+  background-color: var(--uxp-host-background-color, #2b2b2b);
+  color: var(--uxp-host-text-color, #dcdcdc);
+}
+#dlgRoot { display: flex; flex-direction: row; height: 100%; }
+#left { display: flex; flex-direction: column; flex: 1 1 auto; padding: 8px; min-width: 200px; }
+#right {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  width: 360px;
+  border-left: 1px solid rgba(128,128,128,0.45);
+}
+#rightTop { flex: 0 0 auto; padding: 8px 10px 4px 10px; border-bottom: 1px solid rgba(128,128,128,0.45); }
+#scroll { flex: 1 1 auto; overflow-y: scroll; padding: 0 10px 24px 10px; min-height: 80px; }
+#actionBar { flex-wrap: nowrap; padding-bottom: 6px; margin-bottom: 6px; border-bottom: 1px solid rgba(128,128,128,0.3); }
+#outputSel { flex: 1 1 auto; min-width: 90px; }
+#actionBar button { flex: 0 0 auto; min-width: 54px; }
+#actionBar button.primary { padding: 4px 12px; }
+
+.bar { display: flex; flex-direction: row; align-items: center; flex-wrap: wrap; margin: 4px 0; }
+.bar > * { margin-right: 4px; margin-bottom: 2px; }
+.bar.tight { margin: 2px 0; }
+#presetSel { flex: 1 1 auto; min-width: 120px; }
+#newTypeSel { flex: 1 1 auto; min-width: 100px; }
+#presetName { flex: 1 1 auto; min-width: 80px; }
+.chk { display: flex; flex-direction: row; align-items: center; }
+
+.viewWrap {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  background-color: #1a1a1a;
+  border: 1px solid #444;
+}
+#bigWrap { flex: 1 1 auto; }
+.viewWrap img { position: absolute; left: 0; top: 0; cursor: crosshair; }
+.viewEmpty { position: absolute; left: 0; right: 0; top: 40%; color: #888; padding: 12px; text-align: center; }
+.viewBar { display: flex; flex-direction: row; align-items: center; margin: 0 0 6px 0; flex: 0 0 auto; }
+.viewBar button { min-width: 30px; margin-right: 3px; }
+.viewBar .zoomLbl { margin-left: 4px; color: #aaa; min-width: 44px; }
+.viewBar .sep { flex: 1 1 auto; }
+button.toggle.on { background-color: #2680eb; color: #fff; }
+#leftFoot { flex: 0 0 auto; }
+.hint { color: #888; font-size: 10px; margin: 3px 0 2px 0; }
+
+.section { border-top: 1px solid rgba(128,128,128,0.35); margin-top: 6px; padding-top: 4px; }
+.sectionHead {
+  font-weight: bold;
+  padding: 4px 0;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 10px;
+  color: var(--uxp-host-text-color-secondary, #aaa);
+}
+.sectionHead.static { cursor: default; }
+.sectionBody { padding-bottom: 4px; }
+
+#layerList {
+  border: 1px solid rgba(128,128,128,0.35);
+  max-height: 220px;
+  min-height: 40px;
+  overflow-y: auto;
+  margin: 3px 0;
+}
+.layerRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 3px 4px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(128,128,128,0.15);
+}
+.layerRow.sel { background-color: rgba(40,140,255,0.35); }
+.layerRow .eye { width: 16px; text-align: center; margin-right: 4px; cursor: pointer; }
+.layerRow .nm { flex: 1 1 auto; overflow: hidden; }
+.layerRow .ty { color: #999; font-size: 10px; margin-left: 4px; }
+.layerRow .ln { font-size: 10px; padding: 0 5px; margin-left: 4px; border: 1px solid #666; border-radius: 3px; color: #777; cursor: pointer; }
+.layerRow .ln.on { color: #fff; border-color: #2680eb; background-color: #2680eb; }
+.layerRow.hidden .nm { color: #777; text-decoration: line-through; }
+.emptyNote { color: #888; padding: 6px; }
+
+.field { display: flex; flex-direction: row; align-items: center; margin: 2px 0; }
+.field .lbl { width: 92px; flex: 0 0 92px; color: var(--uxp-host-text-color-secondary, #bbb); cursor: default; }
+.field input[type=range] { flex: 1 1 auto; min-width: 60px; }
+.field input.num { width: 52px; flex: 0 0 52px; margin-left: 4px; }
+.field select { flex: 1 1 auto; }
+.field input[type=text] { flex: 1 1 auto; }
+.field .swatch { width: 18px; height: 18px; border: 1px solid #777; margin-left: 4px; flex: 0 0 18px; }
+.field input.hex { width: 70px; flex: 0 0 70px; }
+
+button.primary {
+  padding: 6px 12px;
+  font-weight: bold;
+  background-color: #2680eb;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+}
+#status { margin-top: 4px; color: #9cd; min-height: 14px; }
+#status.err { color: #f88; }
+
+/* browser test harness: show the dialog filling the window */
+body.browser dialog#studio { width: 96vw; height: 92vh; max-width: none; max-height: none; }

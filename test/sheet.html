@@ -1,0 +1,23 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Preset sheet</title>
+<style>body{background:#222;color:#ddd;font:12px sans-serif;margin:8px}#g{display:flex;flex-wrap:wrap}.c{margin:4px}.c canvas{width:300px;display:block}</style></head>
+<body><div id="g"></div>
+<script src="../polyscape-studio/js/polyscape-core.js"></script>
+<script src="../polyscape-studio/js/presets.js"></script>
+<script>
+const im = new Image(); im.src = new URLSearchParams(location.search).get('img') || 'road.png';
+im.onload = () => {
+  const c = document.createElement('canvas'); c.width = im.width; c.height = im.height;
+  const g = c.getContext('2d'); g.drawImage(im, 0, 0);
+  const src = g.getImageData(0, 0, c.width, c.height);
+  const list = POLYSCAPE_PRESETS.slice(+(new URLSearchParams(location.search).get('from')||0));
+  for (const p of list) {
+    const t = performance.now();
+    const r = Polyscape.render({width: src.width, height: src.height, data: src.data}, Polyscape.normalizeDoc(p), {});
+    const cv = document.createElement('canvas'); cv.width = r.width; cv.height = r.height;
+    cv.getContext('2d').putImageData(new ImageData(r.data, r.width, r.height), 0, 0);
+    const d = document.createElement('div'); d.className = 'c';
+    d.appendChild(cv); d.appendChild(document.createTextNode(p.name + ' — ' + Math.round(performance.now() - t) + 'ms'));
+    document.getElementById('g').appendChild(d);
+  }
+};
+</script></body></html>

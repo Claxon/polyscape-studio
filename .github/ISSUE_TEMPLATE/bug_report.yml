@@ -1,0 +1,66 @@
+name: Bug report
+description: Something doesn't work or looks wrong
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a problem. Please check the [troubleshooting section of the user guide](https://github.com/Claxon/polyscape-studio/blob/main/docs/user-guide.md#troubleshooting) first.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What went wrong, and what did you expect to happen instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The steps that lead to the problem. Mention the preset or shapes you used, if relevant.
+      placeholder: |
+        1. Open a 4000×3000 RGB photo
+        2. Open Polyscape Studio and pick the Honeycomb preset
+        3. Press OK
+    validations:
+      required: true
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Polyscape Studio version
+      description: Shown in Plugins › Manage Plugins, or the installer zip name.
+      placeholder: "1.0.0"
+    validations:
+      required: true
+  - type: input
+    id: photoshop-version
+    attributes:
+      label: Photoshop version
+      description: Help › About Photoshop.
+      placeholder: "26.0"
+    validations:
+      required: true
+  - type: input
+    id: windows-version
+    attributes:
+      label: Windows version
+      placeholder: "Windows 11 24H2"
+  - type: input
+    id: document
+    attributes:
+      label: Document
+      description: Size, colour mode and bit depth of the image (Image › Mode).
+      placeholder: "4032×2268, RGB, 8 bits/channel"
+  - type: textarea
+    id: log
+    attributes:
+      label: Diagnostic log
+      description: |
+        Paste the end of `polyscape-log.txt` from
+        `%APPDATA%\Adobe\UXP\PluginsStorage\PHSP\<version>\External\com.claxo.polyscapestudio\PluginData\`
+      render: text
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Drag images here if they help show the problem.

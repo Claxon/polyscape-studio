@@ -1,0 +1,21 @@
+name: Feature request
+description: Suggest a new shape, effect, preset or improvement
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would you like to do?
+      description: Describe what you're trying to achieve, or what's missing.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: How could it work?
+      description: Your idea for the feature. Example images of the look you're after are very welcome.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Workarounds you've tried
+      description: Anything you do today instead, in Polyscape Studio or Photoshop.
